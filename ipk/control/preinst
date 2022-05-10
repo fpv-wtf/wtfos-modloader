@@ -1,0 +1,6 @@
+#!/system/bin/sh
+
+if ! mount | grep -q "/dev/loop"; then
+    echo "/system is not loopmounted. You shouldn't do this on your real /system."
+    exit 1
+fi

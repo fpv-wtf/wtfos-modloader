@@ -1,0 +1,21 @@
+#!/system/bin/sh
+
+cd /system/bin
+
+for filename in dji_*; do
+    #we don't care about bash scripts
+    if [[ $filename == *.sh ]]; then
+        continue
+    fi
+    if [[ $filename == *_original ]]; then
+        continue
+    fi
+
+    if [[ -f ${filename}_original ]]
+    then
+        rm -f ${filename}
+        cp ${filename}_original ${filename}
+    fi    
+
+    
+done

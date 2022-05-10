@@ -1,0 +1,35 @@
+#!/system/bin/sh
+
+if ! mount | grep -q "/dev/loop"; then
+    echo "/system is not loopmounted. You shouldn't do this on your real /system."
+    exit 1
+fi
+
+cd /system/bin
+
+for filename in dji_*; do
+    #we don't care about bash scripts
+    if [[ $filename == *.sh ]]; then
+        continue
+    fi
+    if [[ $filename == *_original ]]; then
+        continue
+    fi
+
+    if [[ ! -f ${filename}_original ]]
+    then
+        cp ${filename} ${filename}_original
+    fi    
+
+    ln -sf /opt/bin/modloader ${filename}
+    mkdir -p /opt/etc/preload.d/${filename}
+done
+
+DEVICE=$(getprop ro.product.device)
+
+if [[ $DEVICE = "pigeon_wm170_gls" ]]; then
+    ln -sf /opt/etc/preload.d/dji_gls_wm150 /opt/etc/preload.d/diy_glasses
+    ln -sf /opt/etc/preload.d/dji_glasses /opt/etc/preload.d/fpv_glasses  
+elif [[ $DEVICE = "pigeon_wm150_gls" ]]; then
+    ln -sf /opt/etc/preload.d/dji_glasses /opt/etc/preload.d/diy_glasses
+fi

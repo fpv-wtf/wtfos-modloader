@@ -1,0 +1,77 @@
+#!/system/bin/sh
+
+PRELOAD_D=/opt/etc/preload.d/
+
+if [ $1 = "enable" ]; then
+  if [ $# -ne 3 ]; then 
+    echo "illegal number of parameters"
+    sh $0 help
+    exit 1
+  fi
+  
+  target="$2"
+  modlib="lib$3.so"
+
+  if [[ ! -f "${PRELOAD_D}${modlib}" ]] && [[ ! -L "${PRELOAD_D}${modlib}" ]]; then 
+    echo "mod not found at ${PRELOAD_D}${modlib}"
+    exit 2
+  fi
+  
+  if [[ -L "${PRELOAD_D}${target}" ]]; then
+    target=$(basename $(readlink "${PRELOAD_D}${target}"))
+  elif [[ ! -d "${PRELOAD_D}${target}" ]]; then
+    mkdir -p "${PRELOAD_D}${target}"
+  fi
+
+  ln -sf "${PRELOAD_D}${modlib}" "${PRELOAD_D}${target}/${modlib}" 
+
+  #this will force init to reload the service, which should auto enable it
+  killall ${target}_original || killall ${target} || true
+
+elif  [ $1 = "disable" ]; then
+  if [ $# -ne 3 ]; then 
+    echo "illegal number of parameters"
+    sh $0 help
+    exit 1
+  fi
+
+  target="$2"
+  modlib="lib$3.so"
+
+  if [[ -L "${PRELOAD_D}${target}" ]]; then
+    target=$(basename $(readlink "${PRELOAD_D}${target}"))
+  elif [[ ! -d "${PRELOAD_D}${target}" ]]; then
+    mkdir -p "${PRELOAD_D}${target}"
+  fi
+
+  if [[ -L "${PRELOAD_D}${target}/${modlib}" ]]; then
+    rm -f "${PRELOAD_D}${target}/${modlib}"
+    killall ${target}_original || true
+  else
+    echo "no such mod enabled"
+  fi
+  
+elif  [ $1 = "list" ]; then
+  if [ $# -eq 1 ]; then 
+    echo "mods available:"
+    find ${PRELOAD_D} -name "*.so" -maxdepth 1 -exec basename {} \; | busybox sed -r 's/^lib(.*).so$/\1/'
+  elif [ $# -eq 2 ]; then
+    echo "mods enabled for ${2}:"
+    find ${PRELOAD_D}${2}/ -name "*.so" -maxdepth 1 -type l -exec basename {} \; | busybox sed -r 's/^lib(.*).so$/\1/'
+  fi
+else 
+echo "usage: 'modmanager command [args]' where command is one of
+  - enable target_name mod_name
+  - disable target_name mod_name
+  - list [target_name]
+
+  target_name is the name of the service, eg. dji_glasses
+  for your convience you may use the aliases 'diy_glasses' 
+  and 'fpv_glasses'.
+
+  mod_name is the name of your mod, where the associated
+  'lib\${mod_name}.so' must be linked to (or located in)
+  /opt/etc/preload.d/
+" 
+
+fi

@@ -1,0 +1,5 @@
+**/ipk/*.ipk
+**/ipk/tmp
+**/ipk/data/*
+*/libs
+*/obj

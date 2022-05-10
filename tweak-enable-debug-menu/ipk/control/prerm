@@ -1,0 +1,4 @@
+#!/system/bin/sh
+
+modmanager disable diy_glasses enable_debug_menu
+

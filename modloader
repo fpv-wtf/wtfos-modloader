@@ -1,0 +1,17 @@
+#!/system/bin/sh
+
+me=$(basename "$0")
+
+if [ -d "/opt/etc/preload.d/${me}" ]
+then
+  MODS="$(find /opt/etc/preload.d/${me}/ -name "*.so" -maxdepth 1 -type l)" 
+fi
+
+if [ ! -z "${MODS}" ]
+then
+  #clear LD_PRELOAD in application env so spawns don't get spammed
+  MODS="${MODS} /opt/lib/libmodloader_final.so"
+  LD_PRELOAD="${MODS}" ${me}_original "$@"
+else 
+  ${me}_original "$@"
+fi
