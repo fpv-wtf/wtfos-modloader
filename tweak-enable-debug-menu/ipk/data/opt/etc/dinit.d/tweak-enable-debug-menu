@@ -1,0 +1,3 @@
+type = scripted
+command = modmanager enable diy_glasses enable_debug_menu
+stop-command = modmanager disable diy_glasses enable_debug_menu

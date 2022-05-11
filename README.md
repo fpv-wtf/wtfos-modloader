@@ -33,7 +33,7 @@ This simply allows you to inject your shared library into the vendor's service p
 
 See the [debug menu enabler](tweak-enable-debug-menu/) for a full example of simple GUI lib method replacement (a NOP in this case) including a Makefile that will produce a complete .ipk for you.
 
-In addition to the injectable library itself, you will also need to take care to update all the files in ipk/control/ with appropriate values for your library.
+In addition to the injectable library itself, you will also need to take care to update all the files in ipk/control/ with appropriate values for your library. Note that the debug menu enabler project uses a dinit unit to allow the user to toggle the mod via configurator, located at ipk/data/opt/etc/dinit.d/tweak-enable-debug-menu and enables that unit during postinst.  
 
 ## How this works
 DJI's services (i.e. when you start something with `setprop dji.something_service 1`) are managed by Android init, which only reads it's config files once during bootup from the / ramfs before we ever have a chance to modify them.
