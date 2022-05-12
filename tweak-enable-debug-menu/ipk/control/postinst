@@ -2,4 +2,4 @@
 
 #modmanager enable diy_glasses enable_debug_menu
 #we use dinit instead as this makes it configurator friendly out of the box
-/opt/sbin/dinitctl -u enable tweak-enable-debug-menu
+/opt/sbin/dinitctl -u enable tweak-enable-debug-menu || true
