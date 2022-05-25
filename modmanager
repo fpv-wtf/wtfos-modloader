@@ -2,6 +2,11 @@
 
 PRELOAD_D=/opt/etc/preload.d/
 
+if [ $# -eq 0 ]; then
+    sh $0 help
+    exit 1
+fi
+
 if [ $1 = "enable" ]; then
   if [ $# -ne 3 ]; then 
     echo "illegal number of parameters"
@@ -26,7 +31,8 @@ if [ $1 = "enable" ]; then
   ln -sf "${PRELOAD_D}${modlib}" "${PRELOAD_D}${target}/${modlib}" 
 
   #this will force init to reload the service, which should auto enable it
-  killall ${target}_original || killall ${target} || true
+  killall ${target} > /dev/null 2>&1 || true
+  killall ${target}_original > /dev/null 2>&1 || true
 
 elif  [ $1 = "disable" ]; then
   if [ $# -ne 3 ]; then 
@@ -46,7 +52,8 @@ elif  [ $1 = "disable" ]; then
 
   if [[ -L "${PRELOAD_D}${target}/${modlib}" ]]; then
     rm -f "${PRELOAD_D}${target}/${modlib}"
-    killall ${target}_original || true
+    killall ${target} > /dev/null 2>&1 || true
+    killall ${target}_original > /dev/null 2>&1 || true
   else
     echo "no such mod enabled"
   fi
