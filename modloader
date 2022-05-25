@@ -1,16 +1,23 @@
 #!/system/bin/sh
 
 me=$(basename "$0")
+MODS=""
 
 if [ -d "/opt/etc/preload.d/${me}" ]
 then
-  MODS="$(find /opt/etc/preload.d/${me}/ -name "*.so" -maxdepth 1 -type l)" 
+  while read lname; do
+    #check that the link resolves to an actual file
+    if [ -f $(readlink -f ${lname}) ]; then 
+      MODS="${MODS} ${lname}"
+    fi
+  done <<< "$(find /opt/etc/preload.d/${me}/ -name \"*.so\" -maxdepth 1 -type l)"
 fi
 
 if [ ! -z "${MODS}" ]
 then
   #clear LD_PRELOAD in application env so spawns don't get spammed
-  MODS="${MODS} /opt/lib/libmodloader_final.so"
+  MODS="${MODS##*( )} /opt/lib/libmodloader_final.so"
+  echo "modloader starting with: ${MODS}"
   LD_PRELOAD="${MODS}" ${me}_original "$@"
 else 
   ${me}_original "$@"
