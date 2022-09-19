@@ -13,10 +13,13 @@ then
   done <<< "$(find /opt/etc/preload.d/${me}/ -name \"*.so\" -maxdepth 1 -type l)"
 fi
 
-if [ ! -z "${MODS}" ]
+if [ ! -z "${MODS}" ] || [ ! -z "${LD_PRELOAD}" ]
 then
   #clear LD_PRELOAD in application env so spawns don't get spammed
   MODS="${MODS##*( )} /opt/lib/libmodloader_final.so"
+  if [ ! -z "${LD_PRELOAD}" ]; then
+    MODS="${LD_PRELOAD} ${MODS} /opt/lib/libmodloader_final.so"
+  fi
   echo "modloader starting with: ${MODS}"
   LD_PRELOAD="${MODS}" ${me}_original "$@"
 else 

@@ -28,6 +28,10 @@ if [ $1 = "enable" ]; then
     mkdir -p "${PRELOAD_D}${target}"
   fi
 
+  if [[ -f "${PRELOAD_D}${target}/${modlib}" ]]; then
+    exit 0
+  fi
+
   ln -sf "${PRELOAD_D}${modlib}" "${PRELOAD_D}${target}/${modlib}" 
 
   #this will force init to reload the service, which should auto enable it
