@@ -35,6 +35,13 @@ See the [debug menu enabler](tweak-enable-debug-menu/) for a full example of sim
 
 In addition to the injectable library itself, you will also need to take care to update all the files in ipk/control/ with appropriate values for your library. Note that the debug menu enabler project uses a dinit unit to allow the user to toggle the mod via configurator, located at ipk/data/opt/etc/dinit.d/tweak-enable-debug-menu and enables that unit during postinst.  
 
+## Main menu injection
+Packages can include commands to be executed in the main menu by populating a .desktop file in /opt/share/applications/ with the Name, Exec, Icon and (custom) Icon_Active keys being respected. Icon and Icon_Active are optional.
+
+When your application needs to take over the framebuffer it should do so by launching a dinit unit with an Exec value like `dinitctl start my-unit-name`. An optional `fbwrapper` utility is included to aid in starting and stopping the DJI glasses process.
+
+See the [examples directory](menu_hook/examples/) for a .desktop file and dinit unit.
+
 ## How this works
 DJI's services (i.e. when you start something with `setprop dji.something_service 1`) are managed by Android init, which only reads it's config files once during bootup from the / ramfs before we ever have a chance to modify them.
 

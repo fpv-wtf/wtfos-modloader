@@ -1,0 +1,69 @@
+<mmsdialog>
+    <childwindow name="racing_top_menu_win" dx="0px" dy="24px" w="276px" h="768px" alignment="top-left" show="false" >
+            <menu name="racing_top_menu" class="tool_setting_label_menu_class" inputmode="MOVE" vloop="true" alignment="center">
+                <menuitem childwindow="racing_chnl_win"
+		    widget.icon.image.name="player/default.png"
+		    widget.icon.selimage.name="player/active.png"
+                    widget.title.text="msg_player_left_menu_btn"
+                    widget.menubutton.data = "Pilot Freq Sel"
+                    />
+                <menuitem childwindow="racing_broadcast_chnl_win"
+                    widget.icon.image.name="audience/default.png"
+		    widget.icon.selimage.name="audience/active.png"
+                    widget.title.text="msg_audience_left_menu_btn"
+                    widget.menubutton.data = "Audient Freq Sel"
+                    />
+                <menuitem childwindow="local_media_menu_win"
+                    widget.icon.image.name="sd/default.png"
+                    widget.icon.selimage.name="sd/active.png"
+                    widget.title.text="msg_playback_left_menu_btn"
+                    widget.menubutton.data = "local_media"
+                    />
+                <menuitem childwindow="racing_settings_win"
+                    widget.icon.image.name="setting/default.png"
+		    widget.icon.selimage.name="setting/active.png"
+                    widget.title.text="msg_setting_left_menu_btn"
+                    widget.menubutton.data = "Settings"
+                    />
+                <menuitem childwindow="racing_sdr_debug_win"
+                    widget.icon.image.name=""
+                    widget.icon.selimage.name=""
+                    widget.title.text="Debug SDR"
+                    widget.menubutton.data = "SDR"
+                    />
+                <menuitem childwindow="racing_debug_win"
+                    widget.icon.image.name=""
+                    widget.icon.selimage.name=""
+                    widget.title.text="Debug OSD"
+                    widget.menubutton.data = "Debug"
+                    />
+	    	<!--
+                <menuitem
+                    widget.icon.image.name=""
+                    widget.icon.selimage.name=""
+                    widget.title.text="msg_racing_topmenu_exit_title"
+                    widget.menubutton.data = "Exit"
+                    />
+		-->
+            </menu>
+    </childwindow>
+    <!--    <childwindow name="racing_chnl_instruction" dx="24px" dy="659px" w="650px" h="48px" alignment="top-left" show="false"
+		focusable="false" bgcolor="#00000000">
+		<hbox>
+			<image size="48px" image.name="control_mode/updown.png" alignment="top-left" />
+			<gap size="8px" />
+			<label size="100px" class="RobotoCondensedBoldClass" text="Select" font.size="28" alignment="center" />
+			<gap size="24px" />
+	             	<image size="48px" image.name="control_mode/leftright.png" alignment="top-left" />
+			<gap size="8px" />
+			<label size="176px" class="RobotoCondensedBoldClass" text="Spread/Pack up" font.size="28" alignment="center" />
+                        <gap size="24px" />
+	             	<image size="48px" image.name="control_mode/center.png" alignment="top-left" />
+			<gap size="8px" />
+			<label size="100px" class="RobotoCondensedBoldClass" text="Chosen" font.size="28" alignment="center" />
+                </hbox>
+    </childwindow>
+-->
+
+</mmsdialog>
+

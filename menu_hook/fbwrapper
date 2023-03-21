@@ -1,0 +1,18 @@
+#!/system/bin/sh
+export $(grep -v '^#' /blackbox/wtfos/device/$(getprop ro.product.device).env | xargs)
+
+if [[ "$WTFOS_DEVICE" == "gl170" ]]; then
+    setprop dji.glasses_wm150_service 0
+    killall dji_gls_wm150_original || true
+else
+    setprop dji.glasses_service 0
+    killall dji_glasses_original || true
+fi
+
+eval "$*"
+
+if [[ "$WTFOS_DEVICE" == "gl170" ]]; then
+    setprop dji.glasses_wm150_service 1
+else
+    setprop dji.glasses_service 1
+fi

@@ -16,9 +16,9 @@ fi
 if [ ! -z "${MODS}" ] || [ ! -z "${LD_PRELOAD}" ]
 then
   #clear LD_PRELOAD in application env so spawns don't get spammed
-  MODS="${MODS##*( )} /opt/lib/libmodloader_final.so"
+  MODS="${MODS##*( )} /opt/lib/libmenu_hook.so /opt/lib/libmodloader_final.so"
   if [ ! -z "${LD_PRELOAD}" ]; then
-    MODS="${LD_PRELOAD} ${MODS} /opt/lib/libmodloader_final.so"
+    MODS="${LD_PRELOAD} ${MODS} /opt/lib/libmenu_hook.so /opt/lib/libmodloader_final.so"
   fi
   echo "modloader starting with: ${MODS}"
   LD_PRELOAD="${MODS}" ${me}_original "$@"

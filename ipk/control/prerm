@@ -19,3 +19,6 @@ for filename in dji_*; do
 
     
 done
+
+cp /system/gui/xml/racing_top_menu.xml.orig /system/gui/xml/racing_top_menu.xml
+rm -f /system/gui/xml/racing_top_menu.xml.orig

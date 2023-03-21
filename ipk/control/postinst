@@ -29,6 +29,11 @@ for filename in dji_*; do
     mkdir -p /opt/etc/preload.d/${filename}
 done
 
+if [[ ! -f /system/gui/xml/racing_top_menu.xml.orig ]]
+then
+    cp /system/gui/xml/racing_top_menu.xml /system/gui/xml/racing_top_menu.xml.orig
+fi    
+
 DEVICE=$(getprop ro.product.device)
 
 if [[ $DEVICE = "pigeon_wm170_gls" ]]; then
