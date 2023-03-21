@@ -1,0 +1,3 @@
+[submodule "menu_hook/jni/inih"]
+	path = menu_hook/jni/inih
+	url = https://github.com/benhoyt/inih.git
