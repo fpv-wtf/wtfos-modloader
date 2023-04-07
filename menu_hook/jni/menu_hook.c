@@ -14,6 +14,8 @@
 
 static void *guiLib = 0;
 static uint32_t (* getSelected)(void* this) = 0;
+static unsigned int (* getSize)(void* this) = 0;
+unsigned int numBaseItems = 0;
 
 void __attribute__((constructor)) menu_hook_init() {
     readApps(DESKTOP_DIR);
@@ -50,10 +52,21 @@ uint32_t _ZN18GlassRacingTopMenu11onMenuInputEP9MMSWidgetP13MMSInputEvent(void *
 
 	//(input_event + 4) == 3 //joystick button pressed.
 	if(((*(int *)input_event == 1) && (*(int *)(input_event + 4) == 3))){
+        if(numBaseItems == 0) {
+            if (getSize == 0){
+                getSize = dlsym (guiLib, "_ZN13MMSMenuWidget7getSizeEv");
+                if (getSize == 0)
+                {
+                    printf("dlsym: %s\n", dlerror());
+                }
+            }
+            numBaseItems = getSize(menu_widget) - app_count;
+        }
+
 		int selected = getSelected(menu_widget);
     	//printf("SELECTED %d\n", selected);
-        if(selected > 3 && selected < 4 + app_count) {
-            int idx = selected - 4;
+        if(selected > (numBaseItems - 1) && selected < (numBaseItems + app_count)) {
+            int idx = selected - numBaseItems;
             char cmd[255];
             sprintf(&cmd, "sh -c '. /etc/mkshrc && %s'", apps[idx]->exec);
             printf("menu_hook executing command %s", cmd);
