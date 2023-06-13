@@ -1,5 +1,5 @@
 # modloader for wtfos
-modloader, along with it's companion `modmanager`, allow you to enable and disable of loading of shared libraries from /opt/etc/preload.d/ into vendor processes.
+modloader, along with it's companion `modmanager`, allow you to enable and disable of loading of shared libraries from /opt/etc/preload.d/ into the DJI glasses process.
 
 ## Usage
 
@@ -33,7 +33,9 @@ This simply allows you to inject your shared library into the vendor's service p
 
 See the [debug menu enabler](tweak-enable-debug-menu/) for a full example of simple GUI lib method replacement (a NOP in this case) including a Makefile that will produce a complete .ipk for you.
 
-In addition to the injectable library itself, you will also need to take care to update all the files in ipk/control/ with appropriate values for your library. Note that the debug menu enabler project uses a dinit unit to allow the user to toggle the mod via configurator, located at ipk/data/opt/etc/dinit.d/tweak-enable-debug-menu and enables that unit during postinst.  
+In addition to the injectable library itself, you will also need to take care to update all the files in ipk/control/ with appropriate values for your library. Note that the debug menu enabler project uses a dinit unit to allow the user to toggle the mod via configurator, located at ipk/data/opt/etc/dinit.d/tweak-enable-debug-menu and enables that unit during postinst.
+
+Note: in order to better deal with memory pressure issues on V2 Goggles the latest versions of modloader _only_ target the dji_glasses/dji_gls_wm150 processes. If you as a developer need to preload over some other service then please contact the fpv.wtf team or open an issue on this repo.
 
 ## Main menu injection
 Packages can include commands to be executed in the main menu by populating a .desktop file in /opt/share/applications/ with the Name, Exec, Icon and (custom) Icon_Active keys being respected. Icon and Icon_Active are optional.

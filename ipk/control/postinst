@@ -5,36 +5,32 @@ if ! mount | grep -q "/dev/loop"; then
     exit 1
 fi
 
+DEVICE=$(getprop ro.product.device)
+
 cd /system/bin
 
 #this directory is required by modloader 
 #it's used during the find in /etc/preload.d/ for tmp storage(?)
 mkdir -p /data/local
 
-for filename in dji_*; do
-    #we don't care about bash scripts
-    if [[ $filename == *.sh ]]; then
-        continue
-    fi
-    if [[ $filename == *_original ]]; then
-        continue
-    fi
+filename="dji_glasses"
 
-    if [[ ! -f ${filename}_original ]]
-    then
-        cp ${filename} ${filename}_original
-    fi    
+if [[ $DEVICE = "pigeon_wm170_gls" ]]; then
+    filename="dji_gls_wm150"
+fi
 
-    ln -sf /opt/bin/modloader ${filename}
-    mkdir -p /opt/etc/preload.d/${filename}
-done
+if [[ ! -f ${filename}_original ]]
+then
+    cp ${filename} ${filename}_original
+fi    
+
+ln -sf /opt/bin/modloader ${filename}
+mkdir -p /opt/etc/preload.d/${filename}
 
 if [[ ! -f /system/gui/xml/racing_top_menu.xml.orig ]]
 then
     cp /system/gui/xml/racing_top_menu.xml /system/gui/xml/racing_top_menu.xml.orig
 fi    
-
-DEVICE=$(getprop ro.product.device)
 
 if [[ $DEVICE = "pigeon_wm170_gls" ]]; then
     ln -sf /opt/etc/preload.d/dji_gls_wm150 /opt/etc/preload.d/diy_glasses
