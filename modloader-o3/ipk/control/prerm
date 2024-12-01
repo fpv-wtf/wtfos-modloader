@@ -1,0 +1,11 @@
+#!/system/bin/sh
+
+cd /system/bin
+
+filename="dji_glasses"
+
+if [[ -f ${filename}_original ]]
+then
+    rm -f ${filename}
+    cp ${filename}_original ${filename}
+fi

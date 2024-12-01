@@ -94,6 +94,7 @@ jobs:
         run: |
           export PATH=$ANDROID_NDK_HOME:$PATH
           make ipk
+          make modloader-o3
           make tweaks
 
       - name: Upload release artifacts

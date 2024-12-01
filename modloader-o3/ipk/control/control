@@ -1,0 +1,7 @@
+Package: wtfos-modloader-o3
+Version: 0.1.5
+Maintainer: Joonas Trussmann <joonas@batman.ee>
+Description: Enable modloader for O3 mode
+Architecture: pigeon-glasses-v2
+Homepage: https://github.com/fpv-wtf/wtfos-modloader
+Depends: wtfos-modloader

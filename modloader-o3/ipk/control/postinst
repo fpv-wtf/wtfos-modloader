@@ -1,0 +1,18 @@
+#!/system/bin/sh
+
+if ! mount | grep -q "/dev/loop"; then
+    echo "/system is not loopmounted. You shouldn't do this on your real /system."
+    exit 1
+fi
+
+cd /system/bin
+
+filename="dji_glasses"
+
+if [[ ! -f ${filename}_original ]]
+then
+    cp ${filename} ${filename}_original
+fi
+
+ln -sf /opt/bin/modloader ${filename}
+mkdir -p /opt/etc/preload.d/${filename}
