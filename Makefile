@@ -1,4 +1,6 @@
 
+.PHONY: modloader-o3
+
 
 all: */jni/*
 	NDK_PROJECT_PATH=./modloader_final ndk-build	
@@ -25,10 +27,10 @@ tweaks: tweak-*/jni/*
 	$(MAKE) -C tweak-enable-debug-menu ipk
 	mv tweak-enable-debug-menu/ipk/*.ipk ./
 
-modloader-o3: modloader-o3/*
+modloader-o3:
 	$(MAKE) -C modloader-o3 ipk
 	mv modloader-o3/ipk/*.ipk ./
-	
+
 clean:
 	$(MAKE) -C ipk clean
 	rm -f *.ipk
