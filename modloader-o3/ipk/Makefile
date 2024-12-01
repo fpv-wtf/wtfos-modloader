@@ -6,9 +6,11 @@ IPK_NAME = "${NAME}_${VERSION}_${ARCH}.ipk"
 all:
 	mkdir -p tmp
 	echo "2.0" > tmp/debian-binary
+	mkdir -p tmp/data
 	cp -r control tmp/
 	cd tmp/control && tar --owner=0 --group=0 -czvf ../control.tar.gz .
-	cd tmp/ && tar --owner=0 --group=0 -czvf "../${IPK_NAME}" ./control.tar.gz ./debian-binary
+	cd tmp/data && tar --owner=0 --group=0 -czvf ../data.tar.gz .
+	cd tmp/ && tar --owner=0 --group=0 -czvf "../${IPK_NAME}" ./control.tar.gz ./data.tar.gz ./debian-binary
 
 clean:
 	rm -rf tmp
